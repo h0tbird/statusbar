@@ -48,21 +48,24 @@ func (i *item) runFunc() {
 //-----------------------------------------------------------------------------
 
 func updates(i *item) {
-	for _ = range time.NewTicker(5 * time.Minute).C {
+	for {
 		i.data = softWhite + iconUpdates + "0"
+		time.Sleep(5 * time.Minute)
 	}
 }
 
 func battery(i *item) {
-	for _ = range time.NewTicker(time.Minute).C {
+	for {
 		i.data = softPurple + iconBattery + "100%"
+		time.Sleep(time.Minute)
 	}
 }
 
 func dateTime(i *item) {
-	for _ = range time.NewTicker(1 * time.Second).C {
+	for {
 		i.data = time.Now().Format(softWhite + iconWallClock +
 			"Mon _2 Jan " + iconLeftArrow + "15:04:05")
+		time.Sleep(time.Second)
 	}
 }
 
