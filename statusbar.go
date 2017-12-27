@@ -53,17 +53,15 @@ func printFour(i *item) {
 func main() {
 
 	// Initialize the structure:
-	items := map[string]*item{
-		"one":  &item{true, *bytes.NewBufferString("1"), printOne},
-		"two":  &item{true, *bytes.NewBufferString("2"), printTwo},
-		"four": &item{true, *bytes.NewBufferString("4"), printFour},
+	items := []*item{
+		&item{true, *bytes.NewBufferString("1"), printOne},
+		&item{true, *bytes.NewBufferString("2"), printTwo},
+		&item{true, *bytes.NewBufferString("4"), printFour},
 	}
 
-	// Start each item logic:
+	// Start each item's logic:
 	for _, v := range items {
-		go func(i *item) {
-			i.runFunc()
-		}(v)
+		go v.runFunc()
 	}
 
 	// Refresh the status bar:
