@@ -31,6 +31,18 @@ const (
 )
 
 //-----------------------------------------------------------------------------
+// format:
+//-----------------------------------------------------------------------------
+
+func format(data []string) string {
+	out := strings.Join(data, fieldSeparator)
+	len := strings.Count(out, softWhite) +
+		strings.Count(out, softOrange) +
+		strings.Count(out, softPurple)
+	return out + strings.Repeat(" ", 2*len)
+}
+
+//-----------------------------------------------------------------------------
 // Item structure:
 //-----------------------------------------------------------------------------
 
@@ -69,7 +81,7 @@ func (s *status) refresh(d time.Duration) {
 				s.data = append(s.data, item.data)
 			}
 		}
-		setStatus(strings.Join(s.data, fieldSeparator) + "          ")
+		setStatus(format(s.data))
 	}
 }
 
