@@ -5,10 +5,7 @@ package main
 //-----------------------------------------------------------------------------
 
 import (
-
-	// Stdlib:
-	"bytes"
-	"fmt"
+	"strings"
 	"time"
 )
 
@@ -18,7 +15,7 @@ import (
 
 type item struct {
 	show bool
-	data bytes.Buffer
+	data string
 	fn   func(*item)
 }
 
@@ -32,21 +29,21 @@ func (i *item) runFunc() {
 // Item functions:
 //-----------------------------------------------------------------------------
 
-func printOne(i *item) {
-	for _ = range time.NewTicker(1 * time.Second).C {
-		i.data.WriteString("1")
-	}
-}
-
-func printTwo(i *item) {
+func printFoo(i *item) {
 	for _ = range time.NewTicker(2 * time.Second).C {
-		i.data.WriteString("2")
+		i.data = "y"
 	}
 }
 
-func printFour(i *item) {
+func printBar(i *item) {
 	for _ = range time.NewTicker(4 * time.Second).C {
-		i.data.WriteString("4")
+		i.data = "z"
+	}
+}
+
+func dateTime(i *item) {
+	for _ = range time.NewTicker(1 * time.Second).C {
+		i.data = time.Now().Format("Mon _2 Jan \xEE\x86\xAC 15:04:05")
 	}
 }
 
@@ -58,9 +55,9 @@ func main() {
 
 	// Initialize the structure:
 	items := []*item{
-		&item{true, *bytes.NewBufferString("1"), printOne},
-		&item{true, *bytes.NewBufferString("2"), printTwo},
-		&item{true, *bytes.NewBufferString("4"), printFour},
+		&item{true, "2", printFoo},
+		&item{true, "4", printBar},
+		&item{true, "", dateTime},
 	}
 
 	// Start each item's logic:
@@ -70,12 +67,12 @@ func main() {
 
 	// Refresh the status bar:
 	for _ = range time.NewTicker(time.Second).C {
-		fmt.Printf("\033[H\033[2J")
+		status := []string{}
 		for _, item := range items {
 			if item.show {
-				fmt.Println(item.data.String())
+				status = append(status, item.data)
 			}
 		}
-		setStatus("hello ")
+		setStatus(strings.Join(status, " | ") + " ")
 	}
 }
