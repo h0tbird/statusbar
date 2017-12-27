@@ -61,8 +61,8 @@ func (s *status) start() {
 	}
 }
 
-func (s *status) refresh() {
-	for _ = range time.NewTicker(time.Second).C {
+func (s *status) refresh(d time.Duration) {
+	for _ = range time.NewTicker(d).C {
 		s.data = []string{}
 		for _, item := range s.items {
 			if item.show {
@@ -114,5 +114,5 @@ func main() {
 	}
 
 	s.start()
-	s.refresh()
+	s.refresh(time.Second)
 }
