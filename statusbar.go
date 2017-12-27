@@ -4,9 +4,13 @@ package main
 // Imports:
 //-----------------------------------------------------------------------------
 
-import "fmt"
-import "time"
-import "bytes"
+import (
+
+	// Stdlib:
+	"bytes"
+	"fmt"
+	"time"
+)
 
 //-----------------------------------------------------------------------------
 // Item structure:
@@ -72,5 +76,6 @@ func main() {
 				fmt.Println(item.data.String())
 			}
 		}
+		setStatus("hello ")
 	}
 }
