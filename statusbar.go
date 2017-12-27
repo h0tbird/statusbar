@@ -10,6 +10,17 @@ import (
 )
 
 //-----------------------------------------------------------------------------
+// Constants:
+//-----------------------------------------------------------------------------
+
+const (
+	softWhite  = "\x02"
+	softOrange = "\x03"
+	leftArrow  = "\xEE\x86\xAC"
+	wallClock  = "\xEE\x80\x95"
+)
+
+//-----------------------------------------------------------------------------
 // Item structure:
 //-----------------------------------------------------------------------------
 
@@ -43,7 +54,8 @@ func printBar(i *item) {
 
 func dateTime(i *item) {
 	for _ = range time.NewTicker(1 * time.Second).C {
-		i.data = time.Now().Format("Mon _2 Jan \xEE\x86\xAC 15:04:05")
+		i.data = time.Now().Format(
+			softWhite + wallClock + "Mon _2 Jan " + leftArrow + "15:04:05")
 	}
 }
 
@@ -55,8 +67,8 @@ func main() {
 
 	// Initialize the structure:
 	items := []*item{
-		&item{true, "2", printFoo},
-		&item{true, "4", printBar},
+		&item{true, "", printFoo},
+		&item{true, "", printBar},
 		&item{true, "", dateTime},
 	}
 
@@ -73,6 +85,6 @@ func main() {
 				status = append(status, item.data)
 			}
 		}
-		setStatus(strings.Join(status, " | ") + " ")
+		setStatus(strings.Join(status, " "+softOrange+"| ") + "       ")
 	}
 }
