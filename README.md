@@ -1,0 +1,2 @@
+# statusbar
+DWM status bar
