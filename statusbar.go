@@ -14,10 +14,17 @@ import (
 //-----------------------------------------------------------------------------
 
 const (
+
+	// Colors:
 	softWhite  = "\x02"
 	softOrange = "\x03"
-	leftArrow  = "\xEE\x86\xAC"
-	wallClock  = "\xEE\x80\x95"
+	softPurple = "\x06"
+
+	// Icons:
+	iconLeftArrow = "\xEE\x86\xAC"
+	iconWallClock = "\xEE\x80\x95"
+	iconBattery   = "\xEE\x80\xB3"
+	iconUpdates   = "\xEE\x80\x8E"
 )
 
 //-----------------------------------------------------------------------------
@@ -40,22 +47,22 @@ func (i *item) runFunc() {
 // Item functions:
 //-----------------------------------------------------------------------------
 
-func printFoo(i *item) {
-	for _ = range time.NewTicker(2 * time.Second).C {
-		i.data = "y"
+func updates(i *item) {
+	for _ = range time.NewTicker(5 * time.Minute).C {
+		i.data = softWhite + iconUpdates + "0"
 	}
 }
 
-func printBar(i *item) {
-	for _ = range time.NewTicker(4 * time.Second).C {
-		i.data = "z"
+func battery(i *item) {
+	for _ = range time.NewTicker(time.Minute).C {
+		i.data = softPurple + iconBattery + "100%"
 	}
 }
 
 func dateTime(i *item) {
 	for _ = range time.NewTicker(1 * time.Second).C {
-		i.data = time.Now().Format(
-			softWhite + wallClock + "Mon _2 Jan " + leftArrow + "15:04:05")
+		i.data = time.Now().Format(softWhite + iconWallClock +
+			"Mon _2 Jan " + iconLeftArrow + "15:04:05")
 	}
 }
 
@@ -67,8 +74,8 @@ func main() {
 
 	// Initialize the structure:
 	items := []*item{
-		&item{true, "", printFoo},
-		&item{true, "", printBar},
+		&item{true, "", updates},
+		&item{true, "", battery},
 		&item{true, "", dateTime},
 	}
 
@@ -85,6 +92,6 @@ func main() {
 				status = append(status, item.data)
 			}
 		}
-		setStatus(strings.Join(status, " "+softOrange+"| ") + "       ")
+		setStatus(strings.Join(status, " "+softOrange+"| ") + "          ")
 	}
 }
