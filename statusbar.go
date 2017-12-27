@@ -20,6 +20,9 @@ const (
 	softOrange = "\x03"
 	softPurple = "\x06"
 
+	// Items:
+	fieldSeparator = softOrange + " | "
+
 	// Icons:
 	iconLeftArrow = "\xEE\x86\xAC"
 	iconWallClock = "\xEE\x80\x95"
@@ -40,6 +43,33 @@ type item struct {
 func (i *item) runFunc() {
 	if i.fn != nil {
 		i.fn(i)
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Status structure:
+//-----------------------------------------------------------------------------
+
+type status struct {
+	data  []string
+	items []*item
+}
+
+func (s *status) start() {
+	for _, v := range s.items {
+		go v.runFunc()
+	}
+}
+
+func (s *status) refresh() {
+	for _ = range time.NewTicker(time.Second).C {
+		s.data = []string{}
+		for _, item := range s.items {
+			if item.show {
+				s.data = append(s.data, item.data)
+			}
+		}
+		setStatus(strings.Join(s.data, fieldSeparator) + "          ")
 	}
 }
 
@@ -75,26 +105,14 @@ func dateTime(i *item) {
 
 func main() {
 
-	// Initialize the structure:
-	items := []*item{
-		&item{true, "", updates},
-		&item{true, "", battery},
-		&item{true, "", dateTime},
+	s := status{
+		items: []*item{
+			&item{true, "", updates},
+			&item{true, "", battery},
+			&item{true, "", dateTime},
+		},
 	}
 
-	// Start each item's logic:
-	for _, v := range items {
-		go v.runFunc()
-	}
-
-	// Refresh the status bar:
-	for _ = range time.NewTicker(time.Second).C {
-		status := []string{}
-		for _, item := range items {
-			if item.show {
-				status = append(status, item.data)
-			}
-		}
-		setStatus(strings.Join(status, " "+softOrange+"| ") + "          ")
-	}
+	s.start()
+	s.refresh()
 }
