@@ -74,32 +74,6 @@ func (s *status) refresh(d time.Duration) {
 }
 
 //-----------------------------------------------------------------------------
-// Item functions:
-//-----------------------------------------------------------------------------
-
-func updates(i *item) {
-	for {
-		i.data = softWhite + iconUpdates + "0"
-		time.Sleep(5 * time.Minute)
-	}
-}
-
-func battery(i *item) {
-	for {
-		i.data = softPurple + iconBattery + "100%"
-		time.Sleep(time.Minute)
-	}
-}
-
-func dateTime(i *item) {
-	for {
-		i.data = time.Now().Format(softWhite + iconWallClock +
-			"Mon _2 Jan " + iconLeftArrow + "15:04:05")
-		time.Sleep(time.Second)
-	}
-}
-
-//-----------------------------------------------------------------------------
 // Main loop:
 //-----------------------------------------------------------------------------
 
