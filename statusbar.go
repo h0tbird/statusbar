@@ -26,7 +26,6 @@ const (
 	// Icons:
 	iconLeftArrow = "\xEE\x86\xAC"
 	iconWallClock = "\xEE\x80\x95"
-	iconBattery   = "\xEE\x80\xB3"
 	iconUpdates   = "\xEE\x80\x8E"
 )
 
