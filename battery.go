@@ -18,9 +18,9 @@ import (
 const (
 
 	// Icons:
-	iconBattery99 = "\xEE\x80\xB3"
-	iconBattery50 = "\xEE\x80\xB6"
-	iconBattery25 = "\xEE\x80\xB5"
+	iconBattery90 = "\xEE\x80\xB3"
+	iconBattery63 = "\xEE\x80\xB6"
+	iconBattery37 = "\xEE\x80\xB5"
 	iconBattery10 = "\xEE\x80\xB4"
 	iconPlugged   = "\xEE\x81\x81"
 )
@@ -71,12 +71,12 @@ func battery(i *item) {
 		icon := iconPlugged
 		if plug == 0 {
 			switch {
-			case perc >= 99:
-				icon = iconBattery99
-			case perc >= 50:
-				icon = iconBattery50
-			case perc >= 25:
-				icon = iconBattery25
+			case perc >= 90:
+				icon = iconBattery90
+			case perc >= 63:
+				icon = iconBattery63
+			case perc >= 37:
+				icon = iconBattery37
 			case perc >= 10:
 				icon = iconBattery10
 			}
