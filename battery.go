@@ -82,6 +82,13 @@ func battery(i *item) {
 			}
 		}
 
+		// Visibility:
+		if (plug == 1) && (perc == 100) {
+			i.show = false
+		} else {
+			i.show = true
+		}
+
 		// Set and sleep:
 		i.data = softPurple + icon + strconv.Itoa(perc) + "%"
 		time.Sleep(time.Minute)
