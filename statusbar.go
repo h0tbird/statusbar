@@ -22,11 +22,6 @@ const (
 
 	// Items:
 	fieldSeparator = softOrange + " | "
-
-	// Icons:
-	iconLeftArrow = "\xEE\x86\xAC"
-	iconWallClock = "\xEE\x80\x95"
-	iconUpdates   = "\xEE\x80\x8E"
 )
 
 //-----------------------------------------------------------------------------
